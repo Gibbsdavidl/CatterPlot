@@ -5,7 +5,8 @@
 \title{Multi-cat!  More cats. More colors.}
 \usage{
 multicat(xs, ys, size = 0.1, cat = c(1, 2), catcolor = "#000000FF",
-  linecolor = 1, type = "justcats", canvas = c(0, 1.1, 0, 1.1), ...)
+  linecolor = 1, type = "justcats", canvas = c(0, 1.1, 0, 1.1),
+  xat = NULL, yat = NULL, ...)
 }
 \arguments{
 \item{xs}{a vector of numbers}
@@ -23,6 +24,10 @@ multicat(xs, ys, size = 0.1, cat = c(1, 2), catcolor = "#000000FF",
 \item{type}{the type of plot ... justcats, or line}
 
 \item{canvas}{the plotting area}
+
+\item{xat}{vector of x-axis ticks}
+
+\item{yat}{vector of y-axis ticks}
 
 \item{...}{additional parameters to pass to plot()}
 }

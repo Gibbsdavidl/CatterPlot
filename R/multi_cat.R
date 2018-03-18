@@ -32,6 +32,8 @@
 #' @param linecolor color of plotted lines
 #' @param type the type of plot ... justcats, or line
 #' @param canvas the plotting area
+#' @param xat vector of x-axis ticks
+#' @param yat vector of y-axis ticks
 #' @param ... additional parameters to pass to plot()
 #'
 #' @return a cat plot object... to plot more cats.
@@ -45,7 +47,10 @@ multicat <- function(xs, ys,
 					size=0.1, cat=c(1,2),
 					catcolor = '#000000FF',
 					linecolor=1, type="justcats",
-					canvas=c(0,1.1,0,1.1), ...) {
+					canvas=c(0,1.1,0,1.1), 
+					xat = NULL,
+					yat = NULL,
+					...) {
 	args <- list(...)
 
 	plot(x=xs, y=ys, col=0, xaxt="n", yaxt="n", ...)
@@ -55,10 +60,25 @@ multicat <- function(xs, ys,
 	xscale <- scaledData$xscale
 	yscale <- scaledData$yscale
 
-	xat = seq(min(xscale), max(xscale), length.out=length(xscale))
-	yat = seq(min(yscale), max(yscale), length.out=length(yscale))
-	xaxtlab = round(seq(min(xs), max(xs),length.out=length(xat)),1)
-	yaxtlab = round(seq(min(ys), max(ys),length.out=length(xat)),1)
+	# axis ticks
+	if( is.null(xat) ) {
+	    xat = seq(min(xscale), max(xscale), length.out = length(xscale))
+	    xaxtlab = round(seq(min(xs), max(xs),length.out=length(xat)),1)
+	} else {
+	    atscale = scaleData(xat, NA, args)
+	    xaxtlab = round(xat, 1)
+	    xat = atscale$xscale # overwrite x-ticks with scaled version
+	}
+	
+	if( is.null(yat) ) {
+	    yat = seq(min(yscale), max(yscale), length.out = length(yscale))
+	    yaxtlab = round(seq(min(ys), max(ys),length.out=length(yat)),1)
+	} else {
+	    atscale = scaleData(NA, yat, args)
+	    yaxtlab = round(yat, 1)
+	    yat = atscale$yscale # overwrite y-ticks with scaled version
+	}
+	
 	axis(side=1, at=xat, labels=xaxtlab)
 	axis(side=2, at=yat, labels=yaxtlab)
 
